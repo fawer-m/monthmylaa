@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Наш первый месяц</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marck+Script&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: одна тёплая колонка, как письмо при свете настольной лампы.
+     Обложка, счётчик дней, десять записок, письмо, финальное сердце. */
+  :root {
+    --bg: #fffbf7;          /* тёплый белый */
+    --card: #ffffff;
+    --ink: #3a2e2a;         /* тёплый тёмно-коричневый */
+    --muted: #8a766c;
+    --line: #f0e2d6;
+    --glow: #ffe3bf;        /* свет лампы */
+    --rose: #d4637a;        /* акцент */
+    --rose-tint: #fdebee;
+    --font-display: "Marck Script", "Segoe Script", "Brush Script MT", cursive;
+    --font-body: "Nunito", "Segoe UI", system-ui, -apple-system, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 0 48px;
+    background-image: radial-gradient(ellipse 90% 520px at 50% -80px, var(--glow) 0%, rgba(255, 227, 191, 0) 70%);
+    background-repeat: no-repeat;
+  }
+  .wrap { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+
+  /* Обложка */
+  .cover { padding-top: 40px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(72px, 22vw, 124px); line-height: 1; margin: 0; color: var(--rose); text-wrap: balance; }
+  .together { font-size: 20px; margin: 0; color: var(--ink); }
+  .dates { font-size: 14px; color: var(--muted); margin: 0; font-variant-numeric: tabular-nums; }
+  .cover-heart { width: 28px; height: 28px; color: var(--rose); margin-top: 12px; animation: beat 2.4s ease-in-out infinite; }
+  @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.14); } }
+
+  /* Счётчик */
+  .counter { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 20px 16px 16px; box-shadow: 0 10px 30px rgba(212, 99, 122, 0.08); }
+  .counter h2 { font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: center; margin: 0 0 14px; }
+  .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .tile { background: var(--rose-tint); border-radius: 14px; padding: 12px 4px 10px; text-align: center; min-width: 0; }
+  .tile b { display: block; font-size: clamp(24px, 8vw, 34px); font-weight: 700; line-height: 1.1; color: var(--rose); font-variant-numeric: tabular-nums; }
+  .tile span { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* Записки */
+  .section-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(32px, 9vw, 42px); line-height: 1.15; margin: 0 0 20px; text-align: center; text-wrap: balance; }
+  .section-sub { text-align: center; color: var(--muted); margin: 0 0 20px; font-size: 15px; }
+  .notes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .note { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px 18px 18px 16px; display: flex; gap: 14px; align-items: flex-start; box-shadow: 0 6px 20px rgba(138, 118, 108, 0.07); }
+  .note-num { flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--rose-tint); color: var(--rose); font-weight: 700; font-size: 15px; display: grid; place-items: center; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .note-body { min-width: 0; }
+  .note h3 { font-family: var(--font-display); font-weight: 400; font-size: 28px; line-height: 1.15; margin: 0 0 4px; }
+  .note p { margin: 0; color: var(--ink); overflow-wrap: anywhere; }
+
+  /* Письмо */
+  .letter { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 28px 22px 26px; box-shadow: 0 14px 36px rgba(212, 99, 122, 0.09); }
+  .letter h2 { font-family: var(--font-display); font-weight: 400; font-size: 36px; line-height: 1.1; margin: 0 0 16px; color: var(--rose); }
+  .letter p { margin: 0 0 14px; max-width: 65ch; }
+  .sign { font-family: var(--font-display); font-size: 28px; color: var(--rose); margin-top: 18px !important; margin-bottom: 0 !important; }
+
+  /* Финал */
+  .finale { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; padding-bottom: 8px; }
+  .finale p { margin: 0; color: var(--muted); min-height: 1.6em; }
+  .heart-btn { appearance: none; border: 0; background: var(--rose); color: #fff; font-family: var(--font-body); font-weight: 700; font-size: 16px; padding: 14px 24px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 10px 24px rgba(212, 99, 122, 0.3); transition: transform 0.15s ease; }
+  .heart-btn:hover { transform: translateY(-1px); }
+  .heart-btn:active { transform: scale(0.97); }
+  .heart-btn:focus-visible { outline: 3px solid var(--glow); outline-offset: 3px; }
+  .heart-btn svg { width: 20px; height: 20px; }
+
+  .float-layer { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 20; }
+  .float-heart { position: absolute; bottom: -40px; width: 26px; height: 26px; color: var(--rose); opacity: 0; animation: rise 2.8s ease-out forwards; }
+  @keyframes rise {
+    0% { transform: translateY(0) scale(0.6); opacity: 0; }
+    15% { opacity: 0.9; }
+    100% { transform: translateY(-85vh) scale(1.2); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cover-heart { animation: none; }
+    .float-heart { animation: none; display: none; }
+    .heart-btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="heart" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></symbol>
+</svg>
+
+<div class="wrap">
+  <header class="cover">
+    <p class="eyebrow">Для Милаши</p>
+    <h1>1 месяц</h1>
+    <p class="together">вместе, хоть и на расстоянии</p>
+    <p class="dates">03.10.2026 &nbsp;→&nbsp; 03.11.2026</p>
+    <svg class="cover-heart" aria-hidden="true"><use href="#heart"/></svg>
+  </header>
+
+  <section class="counter" aria-labelledby="counter-title">
+    <h2 id="counter-title">Мы вместе уже</h2>
+    <div class="tiles">
+      <div class="tile"><b id="t-days">30</b><span id="l-days">дней</span></div>
+      <div class="tile"><b id="t-hours">0</b><span id="l-hours">часов</span></div>
+      <div class="tile"><b id="t-minutes">0</b><span id="l-minutes">минут</span></div>
+      <div class="tile"><b id="t-seconds">0</b><span id="l-seconds">секунд</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="reasons-title">
+    <h2 class="section-title" id="reasons-title">10 причин, почему мне повезло с тобой</h2>
+    <ol class="notes">
+      <li class="note"><span class="note-num">1</span><div class="note-body"><h3>Верность</h3><p>Я в тебе никогда не сомневаюсь и очень рад, что так тебе доверяю.</p></div></li>
+      <li class="note"><span class="note-num">2</span><div class="note-body"><h3>Интеллект</h3><p>Я каждый раз поражаюсь, какая ты у меня умная и как круто и интересно ты рассуждаешь.</p></div></li>
+      <li class="note"><span class="note-num">3</span><div class="note-body"><h3>Лучший сюрприз</h3><p>Твой приезд в Китай — это незабываемые эмоции. Спасибо, солнышко.</p></div></li>
+      <li class="note"><span class="note-num">4</span><div class="note-body"><h3>Красота</h3><p>Я каждый раз не верю, что у меня такая красивая девочка.</p></div></li>
+      <li class="note"><span class="note-num">5</span><div class="note-body"><h3>Милота</h3><p>Не зря моя мама подмечала, что тебе выбрали идеальное имя для тебя.</p></div></li>
+      <li class="note"><span class="note-num">6</span><div class="note-body"><h3>Веселье</h3><p>Ты самая чудесная и креативная девочка на свете.</p></div></li>
+      <li class="note"><span class="note-num">7</span><div class="note-body"><h3>Искренность</h3><p>Это невероятное чувство, видеть, какая ты со мной.</p></div></li>
+      <li class="note"><span class="note-num">8</span><div class="note-body"><h3>Конкретность</h3><p>Ты всё говоришь очень ясно, и я всегда знаю, что ты от меня требуешь.</p></div></li>
+      <li class="note"><span class="note-num">9</span><div class="note-body"><h3>Доброта</h3><p>Ты просто солнце, хоть и можешь меня буллить.</p></div></li>
+      <li class="note"><span class="note-num">10</span><div class="note-body"><h3>Интерес</h3><p>Тебе всегда интересна моя жизнь и моё мнение, это очень дорогого стоит.</p></div></li>
+    </ol>
+  </section>
+
+  <section class="letter" aria-labelledby="letter-title">
+    <h2 id="letter-title">Милаш,</h2>
+    <p>Я понимаю, что месяц — это не какая-то супер дата, но всё равно это наша, можно сказать, первая дата, поэтому я очень хотел, чтобы ты её запомнила.</p>
+    <p>Мы не знакомы даже 6 месяцев, встречаемся всего 1, но я уже точно знаю, что хочу делать всё для наших отношений: ждать тебя из Китая, продолжать радовать и просто оставаться рядом с тобой, что бы ни случилось.</p>
+    <p>Я тебя безумно люблю, солнышко, и надеюсь, что у нас всё получится.</p>
+    <p>Целую много-много.</p>
+    <p class="sign">Я рядом</p>
+  </section>
+
+  <section class="finale">
+    <button class="heart-btn" id="heart-btn" type="button"><svg aria-hidden="true"><use href="#heart"/></svg>Мне понравилось</button>
+    <p id="finale-text" aria-live="polite">Нажми, если тебе стало тепло</p>
+  </section>
+</div>
+
+<div class="float-layer" id="float-layer" aria-hidden="true"></div>
+
+<script>
+(function () {
+  // Дата начала отношений: 3 октября 2026, местное время того, кто открыл страницу
+  var SINCE = new Date(2026, 9, 3, 0, 0, 0);
+
+  function plural(n, forms) {
+    var a = Math.abs(n) % 100, b = a % 10;
+    if (a > 10 && a < 20) return forms[2];
+    if (b > 1 && b < 5) return forms[1];
+    if (b === 1) return forms[0];
+    return forms[2];
+  }
+
+  function setText(id, value) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+
+  function tick() {
+    var diff = Math.max(0, Date.now() - SINCE.getTime());
+    var total = Math.floor(diff / 1000);
+    var days = Math.floor(total / 86400);
+    var hours = Math.floor((total % 86400) / 3600);
+    var minutes = Math.floor((total % 3600) / 60);
+    var seconds = total % 60;
+    setText('t-days', days);
+    setText('t-hours', hours);
+    setText('t-minutes', minutes);
+    setText('t-seconds', seconds);
+    setText('l-days', plural(days, ['день', 'дня', 'дней']));
+    setText('l-hours', plural(hours, ['час', 'часа', 'часов']));
+    setText('l-minutes', plural(minutes, ['минута', 'минуты', 'минут']));
+    setText('l-seconds', plural(seconds, ['секунда', 'секунды', 'секунд']));
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // Финальная кнопка: сердечки поднимаются вверх
+  var btn = document.getElementById('heart-btn');
+  var layer = document.getElementById('float-layer');
+  var text = document.getElementById('finale-text');
+  var messages = [
+    'Я рад. Это только начало.',
+    'Впереди ещё очень много хорошего.',
+    'Я рядом, даже на расстоянии.',
+    'Спасибо, что ты есть.'
+  ];
+  var count = 0;
+
+  btn.addEventListener('click', function () {
+    text.textContent = messages[Math.min(count, messages.length - 1)];
+    count += 1;
+    for (var i = 0; i < 14; i++) {
+      (function (i) {
+        var h = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        h.setAttribute('class', 'float-heart');
+        var u = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+        u.setAttribute('href', '#heart');
+        h.appendChild(u);
+        h.style.left = (6 + Math.random() * 88) + '%';
+        h.style.animationDelay = (i * 0.09) + 's';
+        h.style.animationDuration = (2.4 + Math.random() * 1.2) + 's';
+        layer.appendChild(h);
+        setTimeout(function () { if (h.parentNode) h.parentNode.removeChild(h); }, 4500);
+      })(i);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
